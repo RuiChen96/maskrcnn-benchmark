@@ -5,7 +5,7 @@ import os
 import torch
 
 from maskrcnn_benchmark.config import cfg
-from predictor import COCODemo
+from demo.predictor import COCODemo
 from maskrcnn_benchmark.structures.keypoint import PersonKeypoints
 
 import time
@@ -17,7 +17,7 @@ def main():
     parser = argparse.ArgumentParser(description="PyTorch Object Detection Webcam Demo")
     parser.add_argument(
         "--config-file",
-        default="../configs/caffe2/e2e_mask_rcnn_R_50_FPN_1x_caffe2.yaml",
+        default="configs/caffe2/e2e_mask_rcnn_R_50_FPN_1x_caffe2.yaml",
         metavar="FILE",
         help="path to config file",
     )
@@ -96,6 +96,8 @@ def main():
 
     if len(image_names) == 0:
         print("COULD NOT FIND ANY IMAGE")
+    else:
+        print('dataset len of: {}.'.format(len(image_names)))
 
     out_dir = args.out_dir
 
@@ -107,6 +109,9 @@ def main():
         start_time = time.time()
         img = cv2.imread(os.path.join(img_dir, img_name))
         composite, predictions = coco_demo.run_on_opencv_image(img)
+
+        # cv2.imwrite(os.path.join(out_dir, 'test_keypoint.jpg'), composite)
+
         print("Time: {:.2f} s / img".format(time.time() - start_time))
 
         composite = cv2.resize(composite, None, fx=0.5, fy=0.5)
