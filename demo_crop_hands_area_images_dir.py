@@ -3,10 +3,14 @@ import argparse
 import cv2
 import os
 import torch
+import numpy as np
 
 from maskrcnn_benchmark.config import cfg
 from demo.predictor import COCODemo
 from maskrcnn_benchmark.structures.keypoint import PersonKeypoints
+
+# for COCO annotations
+from cocoapi.PythonAPI.pycocotools.coco import COCO
 
 import time
 import math
@@ -87,28 +91,35 @@ def main():
 
     # load images from directory
     img_dir = args.img_dir
-    image_names = []
-    for img_file in os.listdir(img_dir):
-        if (img_file.endswith(".jpg") or 
-            img_file.endswith(".jpeg") or 
-            img_file.endswith(".png")):
-            image_names.append(img_file)
 
-    if len(image_names) == 0:
+    # load annotations
+    camera_view = 'cam29'
+    # file name: annotations_coco_cam29.json
+    annFile = os.path.join(img_dir, '{}.json'.format('annotations_coco_' + camera_view))
+
+    coco = COCO(annFile)
+
+    imgs = []
+
+    for img_id in coco.imgs:
+        imgs.append((img_id, coco.imgs[img_id], 0))
+
+    if len(imgs) == 0:
         print("COULD NOT FIND ANY IMAGE")
     else:
-        print('dataset len of: {}.'.format(len(image_names)))
+        print('dataset len of: {}.'.format(len(imgs)))
 
     out_dir = args.out_dir
 
-    # Load annotation
-    
-
     himg_count = 0
-    for img_name in image_names:
+    for img in imgs:
         start_time = time.time()
-        img = cv2.imread(os.path.join(img_dir, img_name))
-        composite, predictions = coco_demo.run_on_opencv_image(img)
+
+        img_id = img[0]
+        file_name = img[1]['file_name']
+        img_cv2 = cv2.imread(os.path.join(img_dir, file_name))
+
+        composite, predictions = coco_demo.run_on_opencv_image(img_cv2)
 
         # cv2.imwrite(os.path.join(out_dir, 'test_keypoint.jpg'), composite)
 
@@ -116,8 +127,8 @@ def main():
 
         composite = cv2.resize(composite, None, fx=0.5, fy=0.5)
 
-        labels = predictions.get_field("labels").numpy().tolist()
-        boxes = predictions.bbox.numpy().tolist()
+        human_labels = predictions.get_field("labels").numpy().tolist()
+        human_boxes = predictions.bbox.numpy().tolist()
 
         # get the keypoints
         keypoints = predictions.get_field("keypoints")
@@ -125,13 +136,43 @@ def main():
         scores = keypoints.get_field("logits")
         kps = torch.cat((kps[:, :, 0:2], scores[:, :, None]), dim=2).numpy()
 
-        print('labels:', labels)
-        print('boxes:', boxes)
+        print('labels:', human_labels)
+        print('boxes:', human_boxes)
         print('keypoints:', kps.shape, kps)
+
+        # load annotations for each input img
+        annIds = coco.getAnnIds(imgIds=[img_id], iscrowd=None)
+        anns = coco.loadAnns(annIds)
+        classes = []
+        bboxes = []
+        for ann in anns:
+            cat_id = ann['category_id']
+
+            if ann['iscrowd']:
+                cat_id = -1
+            classes.append(cat_id)
+            bboxes.append(ann['bbox'])
+        classes = np.asarray(classes)
+        bboxes = np.asarray(bboxes)
+        classes = classes.astype(np.float32)
+        bboxes = bboxes.astype(np.float32)
+
+        # calculate bboxes center
+        bboxes_x1 = bboxes[:, 0]
+        bboxes_y1 = bboxes[:, 1]
+        bboxes_x2 = bboxes[:, 2]
+        bboxes_y2 = bboxes[:, 3]
+
+        bboxes_x_bar = (bboxes_x1 + bboxes_x2) / 2.0
+        bboxes_y_bar = (bboxes_y1 + bboxes_y2) / 2.0
+
+        bboxes_centers = np.hstack((bboxes_x_bar, bboxes_y_bar))
+        print('bboxes_centers: ', bboxes_centers)
 
         # crop the hands
         if kps.shape[0] == 1:
             kps_names = PersonKeypoints.NAMES
+            # h1 denotes left_hand, h2 denotes right_hand
             h1xy = kps[0, kps_names.index('left_wrist'), :2]
             h2xy = kps[0, kps_names.index('right_wrist'), :2]
 
@@ -139,26 +180,45 @@ def main():
             print('h2xy:', h2xy)
 
             dist = math.sqrt((h1xy[0]-h2xy[0])**2 + (h1xy[1]-h2xy[1])**2)
-            print('dist:', dist)
+            print('dist between 2 hands:', dist)
+
+            dist_to_h1 = math.sqrt((bboxes_centers[0] - h1xy[0]) ** 2 + (bboxes_centers[1] - h1xy[1]) ** 2)
+            dist_to_h2 = math.sqrt((bboxes_centers[0] - h2xy[0]) ** 2 + (bboxes_centers[1] - h2xy[1]) ** 2)
+            print('dist for product to h1: ', dist_to_h1)
+            print('dist for product to h2: ', dist_to_h2)
 
             hand_images = []
             # if the hands are separated, crop one image for each hand
             if dist > 400.0:
-               h1 = crop_image(img, [h1xy[0], h1xy[1]], 400)
-               h2 = crop_image(img, [h2xy[0], h2xy[1]], 400)
-               hand_images.append(h1)
-               hand_images.append(h2)
+                if dist_to_h1 < dist_to_h2:
+                    h1 = crop_image(img_cv2, [h1xy[0], h1xy[1]], 600)
+
+                    new_bboxes = re_calculate_bboxes(bboxes, [h1xy[0], h1xy[1]], 600)
+
+                    hand_images.append(h1)
+                else:
+                    h2 = crop_image(img_cv2, [h2xy[0], h2xy[1]], 600)
+
+                    new_bboxes = re_calculate_bboxes(bboxes, [h2xy[0], h2xy[1]], 600)
+
+                    hand_images.append(h2)
             else:
                 hmiddle = [(h1xy[0] + h2xy[0])/2, (h1xy[1] + h2xy[1])/2]
-                h1 = crop_image(img, hmiddle, 400)
+                h1 = crop_image(img_cv2, hmiddle, 600)
+
+                new_bboxes = re_calculate_bboxes(bboxes, hmiddle, 600)
+
                 hand_images.append(h1)
             
             # save the hand images
             for idx, hand_image in enumerate(hand_images):
-                cv2.imshow("hand " + str(idx+1) , hand_image)
+                print(new_bboxes)
+                # for bbox in new_bboxes:
+                #     cv2.rectangle(hand_image, (bbox[0], bbox[1]), (bbox[2], bbox[3]), 0, 1)
+
+                cv2.imshow("hand " + str(idx+1), hand_image)
                 cv2.imwrite(os.path.join(out_dir, str(himg_count)+".jpg"), hand_image)
                 himg_count += 1
-
 
         cv2.imshow("Detections", composite)
         if cv2.waitKey(1) == 27:
@@ -199,6 +259,41 @@ def crop_image(image, center, crop_size):
     img_c = image[imgy1-offy1:imgy2+offy2, imgx1-offx1:imgx2+offx2]
 
     return img_c
+
+
+def re_calculate_bboxes(bboxes, hand_center, crop_size):
+    new_bboxes = []
+
+    top_left = [int(hand_center[0] - (crop_size / 2.0)), int(hand_center[1] - (crop_size / 2.0))]
+    bottom_right = [int(hand_center[0] + (crop_size / 2.0)), int(hand_center[1] + (crop_size / 2.0))]
+
+    for bbox in bboxes:
+        x1, y1, x2, y2 = bbox
+        x1 -= top_left[0]
+        y1 -= top_left[1]
+        x2 -= top_left[0]
+        y2 -= top_left[1]
+
+        x1 = int(x1)
+        y1 = int(y1)
+        x2 = int(x2)
+        y2 = int(y2)
+
+        # if x1 < top_left[0]:
+        #     x1 = top_left[0]
+        # if y1 < top_left[1]:
+        #     y1 = top_left[1]
+        # if x2 > bottom_right[0]:
+        #     x2 = bottom_right[0]
+        # if y2 > bottom_right[1]:
+        #     y2 = bottom_right[1]
+
+        print(x1, y1, x2, y2)
+
+        new_bboxes.append([x1, y1, x2, y2])
+
+    return new_bboxes
+
 
 if __name__ == "__main__":
     main()
