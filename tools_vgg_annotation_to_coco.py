@@ -307,10 +307,10 @@ def main():
     coco_output_train["annotations"] = annotations_train
     coco_output_test["annotations"] = annotations_test
 
-    with open('{}/annotations_train.json'.format(ROOT_DIR), 'w') as output_json_file:
+    with open('{}/annotations_train_cam29_crop.json'.format(ROOT_DIR), 'w') as output_json_file:
         json.dump(coco_output_train, output_json_file)
     if SPLIT_TRAIN_TEST:
-        with open('{}/annotations_test.json'.format(ROOT_DIR), 'w') as output_json_file:
+        with open('{}/annotations_test_cam29_crop.json'.format(ROOT_DIR), 'w') as output_json_file:
             json.dump(coco_output_test, output_json_file)
 
     print(missing_annotations) 

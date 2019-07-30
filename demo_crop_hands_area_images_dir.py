@@ -93,6 +93,7 @@ def main():
     img_dir = args.img_dir
 
     # load annotations
+    # cam29, cam30, cam31
     camera_view = 'cam29'
     # file name: annotations_coco_cam29.json
     annFile = os.path.join(img_dir, '{}.json'.format('annotations_coco_' + camera_view))
@@ -191,30 +192,31 @@ def main():
             # if the hands are separated, crop one image for each hand
             if dist > 400.0:
                 if dist_to_h1 < dist_to_h2:
-                    h1 = crop_image(img_cv2, [h1xy[0], h1xy[1]], 600)
+                    h1, position1 = crop_image(img_cv2, [h1xy[0], h1xy[1]], 600)
 
-                    new_bboxes = re_calculate_bboxes(bboxes, [h1xy[0], h1xy[1]], 600)
+                    new_bboxes = re_calculate_bboxes(bboxes, [h1xy[0], h1xy[1]], 600, position1)
 
                     hand_images.append(h1)
                 else:
-                    h2 = crop_image(img_cv2, [h2xy[0], h2xy[1]], 600)
+                    h2, position2 = crop_image(img_cv2, [h2xy[0], h2xy[1]], 600)
 
-                    new_bboxes = re_calculate_bboxes(bboxes, [h2xy[0], h2xy[1]], 600)
+                    new_bboxes = re_calculate_bboxes(bboxes, [h2xy[0], h2xy[1]], 600, position2)
 
                     hand_images.append(h2)
             else:
                 hmiddle = [(h1xy[0] + h2xy[0])/2, (h1xy[1] + h2xy[1])/2]
-                h1 = crop_image(img_cv2, hmiddle, 600)
+                h1, position = crop_image(img_cv2, hmiddle, 600)
 
-                new_bboxes = re_calculate_bboxes(bboxes, hmiddle, 600)
+                new_bboxes = re_calculate_bboxes(bboxes, hmiddle, 600, position)
 
                 hand_images.append(h1)
             
             # save the hand images
             for idx, hand_image in enumerate(hand_images):
                 print(new_bboxes)
-                # for bbox in new_bboxes:
-                #     cv2.rectangle(hand_image, (bbox[0], bbox[1]), (bbox[2], bbox[3]), 0, 1)
+                for i, bbox in enumerate(new_bboxes):
+                    cv2.rectangle(hand_image, (bbox[0], bbox[1]), (bbox[2], bbox[3]), 0, 1)
+                    cv2.putText(hand_image, str(classes[i]), (bbox[0], bbox[1] - 8), 1, 1, 2, 1)
 
                 cv2.imshow("hand " + str(idx+1), hand_image)
                 cv2.imwrite(os.path.join(out_dir, str(himg_count)+".jpg"), hand_image)
@@ -258,35 +260,58 @@ def crop_image(image, center, crop_size):
     print('offx1, offx2, offy1, offy2:', offx1, offx2, offy1, offy2)
     img_c = image[imgy1-offy1:imgy2+offy2, imgx1-offx1:imgx2+offx2]
 
-    return img_c
+    # img + (x1, y1, x2, y2)
+    return img_c, (imgx1-offx1, imgy1-offy1, imgx2+offx2, imgy2+offy2)
 
 
-def re_calculate_bboxes(bboxes, hand_center, crop_size):
+def re_calculate_bboxes(bboxes, hand_center, crop_size, img_patch):
     new_bboxes = []
 
-    top_left = [int(hand_center[0] - (crop_size / 2.0)), int(hand_center[1] - (crop_size / 2.0))]
-    bottom_right = [int(hand_center[0] + (crop_size / 2.0)), int(hand_center[1] + (crop_size / 2.0))]
+    # top_left = [int(hand_center[0] - (crop_size / 2.0)), int(hand_center[1] - (crop_size / 2.0))]
+    # bottom_right = [int(hand_center[0] + (crop_size / 2.0)), int(hand_center[1] + (crop_size / 2.0))]
+
+    top_left = [img_patch[0], img_patch[1]]
+    bottom_right = [img_patch[2], img_patch[3]]
 
     for bbox in bboxes:
         x1, y1, x2, y2 = bbox
-        x1 -= top_left[0]
-        y1 -= top_left[1]
-        x2 -= top_left[0]
-        y2 -= top_left[1]
+        # x1 -= top_left[0]
+        # y1 -= top_left[1]
+        # x2 -= top_left[0]
+        # y2 -= top_left[1]
+        #
+        # x1 = int(x1)
+        # y1 = int(y1)
+        # x2 = int(x2)
+        # y2 = int(y2)
+
+        if x1 < top_left[0]:
+            x1 = 0
+            # x1 = top_left[0]
+        else:
+            x1 -= (top_left[0] + 1)
+
+        if y1 < top_left[1]:
+            y1 = 0
+            # y1 = top_left[1]
+        else:
+            y1 -= (top_left[1] + 1)
+
+        if x2 > bottom_right[0]:
+            # x2 = bottom_right[0]
+            x2 = bottom_right[0] - (top_left[0] + 1)
+        else:
+            x2 -= (top_left[0] + 1)
+
+        if y2 > bottom_right[1]:
+            y2 = bottom_right[1] - (top_left[1] + 1)
+        else:
+            y2 -= (top_left[1] + 1)
 
         x1 = int(x1)
         y1 = int(y1)
         x2 = int(x2)
         y2 = int(y2)
-
-        # if x1 < top_left[0]:
-        #     x1 = top_left[0]
-        # if y1 < top_left[1]:
-        #     y1 = top_left[1]
-        # if x2 > bottom_right[0]:
-        #     x2 = bottom_right[0]
-        # if y2 > bottom_right[1]:
-        #     y2 = bottom_right[1]
 
         print(x1, y1, x2, y2)
 
