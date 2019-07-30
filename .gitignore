@@ -37,3 +37,8 @@ dist/
 /output
 /apex
 /cocoapi
+
+# intermediate files
+config.yml
+inference/
+last_checkpoint
