@@ -39,7 +39,8 @@ class Cityscapes(torchvision.datasets.coco.CocoDetection):
 
     def __getitem__(self, idx):
         # load the image as a PIL Image
-        image = ...
+        img, anno = super(Cityscapes, self).__getitem__(idx)
+        # image = ...
 
         # load the bounding boxes as a list of list of boxes
         # in this case, for illustrative purposes, we use
