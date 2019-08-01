@@ -1,10 +1,23 @@
+import os
+
 import torch
 import torchvision
 
 from PIL import Image
+from pycocotools.coco import COCO
 
 from maskrcnn_benchmark.structures.bounding_box import BoxList
 from maskrcnn_benchmark.structures.segmentation_mask import SegmentationMask
+
+
+"""
+dir structure:
+./data/
+        data/citypersons
+        data/citypersons/cityscape
+            data/citypersons/cityscape/leftImg8bit/{train|val|test}
+            data/citypersons/cityscape/gtFine/{train|val|test}
+"""
 
 
 def _has_only_empty_bbox(anno):
@@ -71,3 +84,10 @@ class Cityscapes(torchvision.datasets.coco.CocoDetection):
 
         # return {"height": img_height, "width": img_width}
         return img_data
+
+
+if __name__ == '__main__':
+    data_dir = '/home/ruichen/data/CityPersons_DATASET/annotations_coco_format'
+    annFile = os.path.join(data_dir, 'instancesonly_filtered_gtFine_train.json')
+    coco = COCO(annFile)
+    print(len(coco))
