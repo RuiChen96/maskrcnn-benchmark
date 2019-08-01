@@ -107,6 +107,10 @@ class DatasetCatalog(object):
         "cityscapes_fine_instanceonly_det_train_cocostyle": {
             "img_dir": "cityscapes/leftImg8bit/train",
             "ann_file": "cityscapes/annotations_coco_format/instancesonly_filtered_gtFine_train.json"
+        },
+        "cityscapes_fine_instanceonly_det_val_cocostyle": {
+            "img_dir": "cityscapes/leftImg8bit/val",
+            "ann_file": "cityscapes/annotations_coco_format/instancesonly_filtered_gtFine_val.json"
         }
     }
 
