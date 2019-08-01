@@ -44,7 +44,7 @@ def has_valid_annotation(anno):
 
 class Cityscapes(torchvision.datasets.coco.CocoDetection):
 
-    def __init__(self, ann_file, root, remove_images_without_annotations, transforms=None):
+    def __init__(self, ann_file, root, remove_images_without_annotations=False, transforms=None):
         # as you would do normally
         super(Cityscapes, self).__init__(root, ann_file)
 
