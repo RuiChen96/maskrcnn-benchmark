@@ -104,11 +104,12 @@ class DatasetCatalog(object):
             "img_dir": "cityscapes/images",
             "ann_file": "cityscapes/annotations/instancesonly_filtered_gtFine_test.json"
         },
-        "cityscapes_fine_instanceonly_det_train_cocostyle": {
+        # do not contains "coco", otherwise it will use coco dataloader
+        "cityscapes_fine_instanceonly_det_train": {
             "img_dir": "cityscapes/leftImg8bit/train",
             "ann_file": "cityscapes/annotations_coco_format/instancesonly_filtered_gtFine_train.json"
         },
-        "cityscapes_fine_instanceonly_det_val_cocostyle": {
+        "cityscapes_fine_instanceonly_det_val": {
             "img_dir": "cityscapes/leftImg8bit/val",
             "ann_file": "cityscapes/annotations_coco_format/instancesonly_filtered_gtFine_val.json"
         }
