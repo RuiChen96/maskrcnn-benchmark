@@ -303,7 +303,7 @@ def main():
 
     # load annotations
     # cam29, cam30, cam31, cam100
-    camera_view = 'cam100'
+    camera_view = 'cam30'
     # file name: annotations_coco_cam29.json
     annFile = os.path.join(img_dir, '{}.json'.format('annotations_coco_' + camera_view))
     # annFile = os.path.join(img_dir, '{}.json'.format('annotations_train'))
@@ -479,7 +479,7 @@ def main():
     # save coco annotations
     coco_output_train["annotations"] = annotations_train
 
-    with open('{}/annotations_train_{}_crop_{}.json'.format(ROOT_DIR, camera_view, img_size), 'w') as output_json_file:
+    with open('{}/annotations_train_{}_crop_{}_imgs_13k.json'.format(ROOT_DIR, camera_view, img_size), 'w') as output_json_file:
         json.dump(coco_output_train, output_json_file)
 
 
