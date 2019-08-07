@@ -54,6 +54,13 @@ class Cityscapes(torchvision.datasets.coco.CocoDetection):
 
         self.categories = {cat['id']: cat['name'] for cat in self.coco.cats.values()}
 
+        self.json_category_id_to_contiguous_id = {
+            v: i + 1 for i, v in enumerate(self.coco.getCatIds())
+        }
+        self.contiguous_category_id_to_json_id = {
+            v: k for k, v in self.json_category_id_to_contiguous_id.items()
+        }
+
         self.id_to_img_map = {k: v for k, v in enumerate(self.ids)}
 
         self._transforms = transforms
