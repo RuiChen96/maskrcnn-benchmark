@@ -141,6 +141,10 @@ class DatasetCatalog(object):
             "img_dir": "visual_pr_shelf/light/cam2",
             "ann_file": "visual_pr_shelf/light/cam2/annotations_train.json"
         },
+        "visual_pr_30skus_green_screen_data_v4": {
+            "img_dir": "visual_pr_syn/v4",
+            "ann_file": "visual_pr_syn/v4/annotations_train.json"
+        },
         "test_visual_pr_30skus_cam29_batch2_imgs": {
             "img_dir": "test_visual_pr_ceiling/cam29/batch2",
             "ann_file": "test_visual_pr_ceiling/cam29/batch2/annotations_test.json"
