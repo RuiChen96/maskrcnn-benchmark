@@ -22,15 +22,15 @@ MODEL:
     PREDICTOR: "FPNPredictor"
     NUM_CLASSES: 31
 INPUT:
-  MIN_SIZE_TRAIN: (400,)
-  MAX_SIZE_TRAIN: 400
-  MIN_SIZE_TEST: 400
-  MAX_SIZE_TEST: 400
+  MIN_SIZE_TRAIN: (600,)
+  MAX_SIZE_TRAIN: 600
+  MIN_SIZE_TEST: 800
+  MAX_SIZE_TEST: 800
   PIXEL_MEAN: [102.9801, 115.9465, 122.7717]
   PIXEL_STD: [1., 1., 1.]
   TO_BGR255: True
 DATASETS:
-  TRAIN: ("visual_pr_30skus_cam100_9k_imgs", "visual_pr_30skus_cam29_13k_imgs", "visual_pr_30skus_cam30_13k_imgs", "visual_pr_30skus_cam31_13k_imgs", "visual_pr_30skus_shelf_dark_4k_imgs", "visual_pr_30skus_shelf_light_2k_imgs_cam1", "visual_pr_30skus_shelf_light_2k_imgs_cam2", "visual_pr_30skus_green_screen_data_v4")
+  TRAIN: ("visual_pr_30skus_cam100_9k_imgs", "visual_pr_30skus_cam29_13k_imgs", "visual_pr_30skus_cam30_13k_imgs", "visual_pr_30skus_cam31_13k_imgs", "visual_pr_30skus_shelf_dark_4k_imgs", "visual_pr_30skus_shelf_light_2k_imgs_cam1", "visual_pr_30skus_shelf_light_2k_imgs_cam2", )
   TEST: ("test_visual_pr_30skus_cam29_batch2_imgs", "test_visual_pr_30skus_cam30_batch2_imgs")
 DATALOADER:
   SIZE_DIVISIBILITY: 32
