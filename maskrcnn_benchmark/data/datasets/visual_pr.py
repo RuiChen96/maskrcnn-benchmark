@@ -65,6 +65,9 @@ class VisualPR(torchvision.datasets.coco.CocoDetection):
 
         self._transforms = transforms
 
+        print("Loading from : {}. ".format(ann_file))
+        print("Dataset of len : {}. ".format(self.__len__()))
+
     def __getitem__(self, idx):
         # load the image as a PIL Image
         coco = self.coco

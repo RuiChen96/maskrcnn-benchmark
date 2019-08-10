@@ -112,6 +112,42 @@ class DatasetCatalog(object):
         "cityscapes_fine_instanceonly_det_val": {
             "img_dir": "cityscapes/leftImg8bit/val",
             "ann_file": "cityscapes/annotations_coco_format/instancesonly_filtered_gtFine_val.json"
+        },
+        "visual_pr_30skus_cam100_9k_imgs": {
+            "img_dir": "visual_pr_ceiling/cam100",
+            "ann_file": "visual_pr_ceiling/cam100/annotations_train.json"
+        },
+        "visual_pr_30skus_cam29_13k_imgs": {
+            "img_dir": "visual_pr_ceiling/cam29",
+            "ann_file": "visual_pr_ceiling/cam29/annotations_train.json"
+        },
+        "visual_pr_30skus_cam30_13k_imgs": {
+            "img_dir": "visual_pr_ceiling/cam30",
+            "ann_file": "visual_pr_ceiling/cam30/annotations_train.json"
+        },
+        "visual_pr_30skus_cam31_13k_imgs": {
+            "img_dir": "visual_pr_ceiling/cam31",
+            "ann_file": "visual_pr_ceiling/cam31/annotations_train.json"
+        },
+        "visual_pr_30skus_shelf_dark_4k_imgs": {
+            "img_dir": "visual_pr_shelf/dark",
+            "ann_file": "visual_pr_shelf/dark/annotations_train.json"
+        },
+        "visual_pr_30skus_shelf_light_2k_imgs_cam1": {
+            "img_dir": "visual_pr_shelf/light/cam1",
+            "ann_file": "visual_pr_shelf/light/cam1/annotations_train.json"
+        },
+        "visual_pr_30skus_shelf_light_2k_imgs_cam2": {
+            "img_dir": "visual_pr_shelf/light/cam2",
+            "ann_file": "visual_pr_shelf/light/cam2/annotations_train.json"
+        },
+        "test_visual_pr_30skus_cam29_batch2_imgs": {
+            "img_dir": "test_visual_pr_ceiling/cam29/batch2",
+            "ann_file": "test_visual_pr_ceiling/cam29/batch2/annotations_test.json"
+        },
+        "test_visual_pr_30skus_cam30_batch2_imgs": {
+            "img_dir": "test_visual_pr_ceiling/cam30/batch2",
+            "ann_file": "test_visual_pr_ceiling/cam30/batch2/annotations_test.json"
         }
     }
 
@@ -148,6 +184,17 @@ class DatasetCatalog(object):
             )
             return dict(
                 factory="Cityscapes",
+                args=args,
+            )
+        elif "visual_pr" in name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
                 args=args,
             )
         raise RuntimeError("Dataset not available: {}".format(name))
