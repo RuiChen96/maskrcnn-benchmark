@@ -92,7 +92,7 @@ class VisualPR(torchvision.datasets.coco.CocoDetection):
         boxes = [obj["bbox"] for obj in anno]
         boxes = torch.as_tensor(boxes).reshape(-1, 4)   # guard against no boxes
         # target = BoxList(boxes, img.size, mode="xywh").convert("xyxy")
-        target = BoxList(boxes, img.size, mode="xyxy").convert("xyxy")
+        target = BoxList(boxes, img.size, mode="xyxy")
 
         # and labels
         classes = [obj["category_id"] for obj in anno]

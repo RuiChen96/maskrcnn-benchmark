@@ -30,7 +30,7 @@ INPUT:
   PIXEL_STD: [1., 1., 1.]
   TO_BGR255: True
 DATASETS:
-  TRAIN: ("visual_pr_30skus_cam100_9k_imgs", "visual_pr_30skus_cam29_13k_imgs", "visual_pr_30skus_cam30_13k_imgs", "visual_pr_30skus_cam31_13k_imgs")
+  TRAIN: ("visual_pr_30skus_cam100_9k_imgs", "visual_pr_30skus_cam29_13k_imgs", "visual_pr_30skus_cam30_13k_imgs")
   TEST: ("test_visual_pr_30skus_cam29_batch2_imgs", "test_visual_pr_30skus_cam30_batch2_imgs")
 DATALOADER:
   SIZE_DIVISIBILITY: 32
