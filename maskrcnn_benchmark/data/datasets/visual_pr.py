@@ -44,13 +44,27 @@ def has_valid_annotation(anno):
 
 class VisualPR(torchvision.datasets.coco.CocoDetection):
 
-    def __init__(self, ann_file, root, remove_images_without_annotations=False, transforms=None):
+    def __init__(self, ann_file, root, remove_images_without_annotations=True, transforms=None):
         # as you would do normally
         super(VisualPR, self).__init__(root, ann_file)
 
         # sort indices for reproducible results
         # self.ids is inheritance from __init__
         self.ids = sorted(self.ids)
+        before_remove = len(self.ids)
+
+        # filter images without detection annotations
+        if remove_images_without_annotations:
+            ids = []
+            for img_id in self.ids:
+                ann_ids = self.coco.getAnnIds(imgIds=img_id, iscrowd=None)
+                anno = self.coco.loadAnns(ann_ids)
+                if has_valid_annotation(anno):
+                    ids.append(img_id)
+            self.ids = ids
+
+        after_remove = len(self.ids)
+        print("before remove: {}, after remove: {}. ".format(before_remove, after_remove))
 
         self.categories = {cat['id']: cat['name'] for cat in self.coco.cats.values()}
 
