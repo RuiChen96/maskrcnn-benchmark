@@ -4,5 +4,6 @@ from .voc import PascalVOCDataset
 from .concat_dataset import ConcatDataset
 from .cityscapes import Cityscapes
 from .visual_pr import VisualPR
+from .foggy_cityscapes import Foggy_Cityscapes
 
-__all__ = ["COCODataset", "ConcatDataset", "PascalVOCDataset", "Cityscapes", "VisualPR"]
+__all__ = ["COCODataset", "ConcatDataset", "PascalVOCDataset", "Cityscapes", "VisualPR", "Foggy_Cityscapes"]

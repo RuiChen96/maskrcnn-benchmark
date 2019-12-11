@@ -320,6 +320,17 @@ def evaluate_predictions_on_coco(
     coco_eval.evaluate()
     coco_eval.accumulate()
     coco_eval.summarize()
+
+    coco_eval.params.useCats = 1
+    for i in range(1, 10):
+        # catId = self._real_id_to_cat_id(i)
+        catId = i
+
+        coco_eval.params.catIds = [catId]
+        coco_eval.evaluate()
+        coco_eval.accumulate()
+        print('With CatIds {} {}'.format(catId, coco_gt.cats[catId]['name']))
+        coco_eval.summarize()
     return coco_eval
 
 
