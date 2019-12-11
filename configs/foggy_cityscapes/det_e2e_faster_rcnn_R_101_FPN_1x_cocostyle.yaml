@@ -40,3 +40,4 @@ INPUT:
   MAX_SIZE_TEST: 2048
 TEST:
   IMS_PER_BATCH: 4
+OUTPUT_DIR: "./foggy_cityscapes_model_save/Res101"
