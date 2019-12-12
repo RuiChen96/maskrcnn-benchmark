@@ -147,7 +147,7 @@ if __name__ == '__main__':
     # print(len(coco))
     data_loader = VisualPR(ann_file=annFile, root=img_dir, remove_images_without_annotations=False)
     img, target, idx = data_loader.__getitem__(0)
-    # img.show()
+    img.show()
     print('target: {}. '.format(target))
     print('idx: {}. '.format(idx))
     print(data_loader.__len__())

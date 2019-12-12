@@ -322,7 +322,7 @@ def evaluate_predictions_on_coco(
     coco_eval.summarize()
 
     coco_eval.params.useCats = 1
-    for i in range(1, 10):
+    for i in range(1, 9):
         # catId = self._real_id_to_cat_id(i)
         catId = i
 
