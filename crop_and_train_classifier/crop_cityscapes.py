@@ -27,6 +27,23 @@ def xywh2xyxy(bbox):
     return [x, y, x + w, y + h]
 
 
+INFO = {
+    "description": "Cityscapes Cropped Image Patches for Image Classification",
+    "url": "",
+    "version": "0.1.0",
+    "year": 2019,
+    "contributor": "Rui Chen",
+    "date_created": datetime.datetime.utcnow().isoformat(' ')
+}
+
+LICENSES = [
+    {
+        "id": 1,
+        "name": "Attribution-NonCommercial-ShareAlike License",
+        "url": "http://creativecommons.org/licenses/by-nc-sa/2.0/"
+    }
+]
+
 # read in annotations
 img_dir = '/home/ruichen/Documents/Documents_from_ubuntu_1604/Cityscapes_DATASET_and_MODEL/CityPersons_DATASET/leftImg8bit/train'
 anno_dir = '/home/ruichen/Documents/Cityscapes_COCO_Annotations/annotations_coco_format'
@@ -36,6 +53,19 @@ anno_path = osp.join(anno_dir, 'instancesonly_filtered_gtFine_train.json')
 coco = COCO(anno_path)
 ids = list(coco.imgs.keys())
 length = len(ids)
+
+dataset = json.load(open(anno_path, 'r'))
+CATEGORIES = dataset['categories']
+coco_output_train = {
+        "info": INFO,
+        "licenses": LICENSES,
+        "categories": CATEGORIES,
+        "images": [],
+        "annotations": []
+}
+annotations_train = []
+
+img_id_save = 0
 
 for index in range(length):
     print(index)
@@ -53,21 +83,45 @@ for index in range(length):
     if not osp.exists(osp.join(save_dir, sub_folder, path.split('.')[0])):
         os.mkdir(osp.join(save_dir, sub_folder, path.split('.')[0]))
 
+    # bbox locations for cropping
     boxes = [obj["bbox"] for obj in target]
-    # print(len(boxes))
+    # bbox labels for re-writing annotations
+    labels = [obj["category_id"] for obj in target]
+
     for idx, box in enumerate(boxes):
-        # print(box)
+
         box = xywh2xyxy(box)
-        # print(box)
+
         crop_area = img.crop((box[0], box[1], box[2], box[3]))
-        crop_area.save(osp.join(save_dir, sub_folder, path.split('.')[0], path.split('.')[0] + '_{}.jpg'.format(idx)))
-    # boxes = torch.as_tensor(boxes).reshape(-1, 4)
+        save_path = osp.join(save_dir, sub_folder, path.split('.')[0], path.split('.')[0] + '_{}.jpg'.format(idx))
+        crop_area.save(save_path)
+
+        file_name = path.split('.')[0] + '_{}.jpg'.format(idx)
+        width = box[2] - box[0]
+        height = box[3] - box[1]
+
+        image_info = {'id': img_id_save, 'file_name': file_name, 'width': width,
+                      'height': height, 'licence': 1, 'coco_url': ''}
+        coco_output_train["images"].append(image_info)
+
+        annotation = {"image_id": img_id_save, "iscrowd": 0, "area": int(width * height),
+                      "bbox": [], "segmentation": [], "id": [], "category_id": labels[idx]}
+        annotations_train.append(annotation)
+
+        img_id_save += 1
+
+coco_output_train["annotations"] = annotations_train
+
+with open('{}/annotations_cityscapes_cropped_patches.json'.format(save_dir), 'w') as output_json_file:
+    json.dump(coco_output_train, output_json_file)
+
+print('--- --- --- END --- --- ---')
+
+# crop the image patch -- done
 
 
+# re-write the annotation -- save it using COCO format -- TODO
 
-# crop the image patch
 
-
-# re-write the annotation
-
+# prepare the negative example
 
