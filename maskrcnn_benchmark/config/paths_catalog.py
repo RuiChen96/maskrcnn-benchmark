@@ -160,6 +160,14 @@ class DatasetCatalog(object):
         "test_visual_pr_30skus_cam30_batch2_imgs": {
             "img_dir": "test_visual_pr_ceiling/cam30/batch2",
             "ann_file": "test_visual_pr_ceiling/cam30/batch2/annotations_test.json"
+        },
+        "synthetic_1000skus_train": {
+            "img_dir": "synthetic1000/images",
+            "ann_file": "synthetic1000/annotations.json"
+        },
+        "synthetic_1000skus_test": {
+            "img_dir": "synthetic1000_test/images",
+            "ann_file": "synthetic1000_test/annotations.json"
         }
     }
 
@@ -218,6 +226,17 @@ class DatasetCatalog(object):
             )
             return dict(
                 factory="Foggy_Cityscapes",
+                args=args,
+            )
+        elif "1000skus" in name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
                 args=args,
             )
         raise RuntimeError("Dataset not available: {}".format(name))

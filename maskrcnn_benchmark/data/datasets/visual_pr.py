@@ -4,20 +4,8 @@ import torch
 import torchvision
 
 from PIL import Image
-from pycocotools.coco import COCO
 
 from maskrcnn_benchmark.structures.bounding_box import BoxList
-from maskrcnn_benchmark.structures.segmentation_mask import SegmentationMask
-
-
-"""
-dir structure:
-./data/
-        data/citypersons
-        data/citypersons/cityscape
-            data/citypersons/cityscape/leftImg8bit/{train|val|test}
-            data/citypersons/cityscape/gtFine/{train|val|test}
-"""
 
 
 def _has_only_empty_bbox(anno):
@@ -44,7 +32,9 @@ def has_valid_annotation(anno):
 
 class VisualPR(torchvision.datasets.coco.CocoDetection):
 
-    def __init__(self, ann_file, root, remove_images_without_annotations=True, transforms=None):
+    def __init__(
+            self, ann_file, root, remove_images_without_annotations=True, transforms=None
+    ):
         # as you would do normally
         super(VisualPR, self).__init__(root, ann_file)
 
@@ -140,12 +130,14 @@ class VisualPR(torchvision.datasets.coco.CocoDetection):
 
 
 if __name__ == '__main__':
-    data_dir = '/home/ruichen/Documents/Documents_from_ubuntu_1604/hand_crop_data/cam_100_crop_800'
+    data_dir = '/home/ruichen/Documents/Documents_from_ubuntu_1604/1000SKUs_Synthetic_Train'
     img_dir = data_dir
     annFile = os.path.join(data_dir, 'annotations_train.json')
     # coco = COCO(annFile)
     # print(len(coco))
-    data_loader = VisualPR(ann_file=annFile, root=img_dir, remove_images_without_annotations=False)
+    data_loader = VisualPR(ann_file=annFile, root=img_dir, remove_images_without_annotations=True)
+    img_data = data_loader.get_img_info(0)
+    print(img_data)
     img, target, idx = data_loader.__getitem__(0)
     img.show()
     print('target: {}. '.format(target))
