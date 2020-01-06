@@ -130,9 +130,9 @@ class VisualPR(torchvision.datasets.coco.CocoDetection):
 
 
 if __name__ == '__main__':
-    data_dir = '/home/ruichen/Documents/Documents_from_ubuntu_1604/1000SKUs_Synthetic_Train'
-    img_dir = data_dir
-    annFile = os.path.join(data_dir, 'annotations_train.json')
+    data_dir = '/home/ruichen/Documents/Documents_from_ubuntu_1604/1000SKUs_Synthetic_Test'
+    img_dir = os.path.join(data_dir, 'images')
+    annFile = os.path.join(data_dir, 'annotations.json')
     # coco = COCO(annFile)
     # print(len(coco))
     data_loader = VisualPR(ann_file=annFile, root=img_dir, remove_images_without_annotations=True)

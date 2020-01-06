@@ -301,3 +301,8 @@ class ModelCatalog(object):
         unique_name = ".".join([model_name, signature])
         url = "/".join([prefix, model_id, "12_2017_baselines", unique_name, suffix])
         return url
+
+
+if __name__ == '__main__':
+    test = DatasetCatalog()
+    test.get("synthetic_1000skus_test")
