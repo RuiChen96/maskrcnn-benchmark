@@ -168,6 +168,18 @@ class DatasetCatalog(object):
         "synthetic_1000skus_test": {
             "img_dir": "synthetic1000_test/images",
             "ann_file": "synthetic1000_test/annotations.json"
+        },
+        "unlabeled_train_data_nano": {
+            "img_dir": "unlabeled_train_data_nano/cropped",
+            "ann_file": "unlabeled_train_data_nano/annotations_domain_adaptaion_v2.json"
+        },
+        "real_skus_1_30_train": {
+            "img_dir": "real_data_skus_1-30/images",
+            "ann_file": "real_data_skus_1-30/annotations_1_30_200classes.json"
+        },
+        "test_data_nano": {
+            'img_dir': "test_data_nano/images_flipped",
+            "ann_file": "test_data_nano/ann_coco_flipped.json"
         }
     }
 
@@ -238,6 +250,28 @@ class DatasetCatalog(object):
             return dict(
                 factory="VisualPR",
                 args=args,
+            )
+        elif "nano" in name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "real_skus_1_30_train" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
             )
         raise RuntimeError("Dataset not available: {}".format(name))
 
