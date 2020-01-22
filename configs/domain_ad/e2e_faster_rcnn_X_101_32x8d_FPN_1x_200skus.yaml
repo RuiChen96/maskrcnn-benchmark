@@ -35,8 +35,8 @@ INPUT:
   PIXEL_STD: [1., 1., 1.]
   TO_BGR255: True    
 DATASETS:
-  TRAIN: ("unlabeled_train_data_nano")
-  TEST: ("test_data_nano")
+  TRAIN: ("unlabeled_train_data_nano", )
+  TEST: ("test_data_nano", )
 DATALOADER:
   SIZE_DIVISIBILITY: 32
 SOLVER:
