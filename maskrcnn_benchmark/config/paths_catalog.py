@@ -178,8 +178,8 @@ class DatasetCatalog(object):
             "ann_file": "real_data_skus_1-30/annotations_1_30_200classes.json"
         },
         "test_data_nano": {
-            'img_dir': "test_data_nano/images_flipped",
-            "ann_file": "test_data_nano/ann_coco_flipped.json"
+            'img_dir': "test_data_nano/100-flipped",
+            "ann_file": "test_data_nano/annotations_100-flipped_42_crop_550.json"
         }
     }
 

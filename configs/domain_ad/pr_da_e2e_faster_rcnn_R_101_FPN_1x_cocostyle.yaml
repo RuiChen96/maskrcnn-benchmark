@@ -22,8 +22,8 @@ MODEL:
     PREDICTOR: "FPNPredictor"
     NUM_CLASSES: 31
 DATASETS:
-  TRAIN: ("unlabeled_train_data_nano", "real_skus_1_30_train")
-  TEST: ("test_data_nano",)
+  TRAIN: ("unlabeled_train_data_nano", "real_skus_1_30_train", )
+  TEST: ("test_data_nano", )
 DATALOADER:
   SIZE_DIVISIBILITY: 32
 SOLVER:
@@ -36,8 +36,8 @@ SOLVER:
 INPUT:
   MIN_SIZE_TRAIN: (600, 632, 664, 696, 728, 760, 792, 800)
   MAX_SIZE_TRAIN: 800
-  MIN_SIZE_TEST: 800
-  MAX_SIZE_TEST: 800
+  MIN_SIZE_TEST: 550
+  MAX_SIZE_TEST: 550
 TEST:
   IMS_PER_BATCH: 4
 OUTPUT_DIR: "./pr_da_model_save"
