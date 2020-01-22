@@ -1,6 +1,6 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  WEIGHT: "/home2/aifi_code/spg/product-recognition/models/ceiling/cropped_hands/200skus/all_data_v5/model_0300000.pth"
+  WEIGHT: "/home/rui/domain_adaptation/maskrcnn-benchmark/models/all_data_skus200_v5/model_0300000.pth"
   BACKBONE:
     CONV_BODY: "R-101-FPN"
   RPN:
@@ -35,15 +35,15 @@ INPUT:
   PIXEL_STD: [1., 1., 1.]
   TO_BGR255: True    
 DATASETS:
-  TRAIN: ("sku-box_1_30_200classes", "sku-box_31_100_200classes", "sku-box_101_200_200classes", "sku-box_ceiling-greenscreen-80_200skus", "sku-box_synthetic_1_30_random-10k", "sku-box_synthetic_1_30_grid-10k", "sku-box_synthetic_1_30_ind-10k", "sku-box_synthetic-v2-1", "sku-box_synthetic-v2-2", "sku-box_synthetic-v2-3", "sku-box_synthetic-v2-4","sku-box_synthetic-v2-5-1","sku-box_synthetic-v2-5-2","sku-box_synthetic-v2-6","sku-box_synthetic-v2-7")
-  TEST: ("sku-box-test-1-30-cams30-100", "sku-box-test-31-100-cams30-100_depth", "sku-box-test-31-100-cams30-100_keyp", "sku-box-test-101-200-depth", "sku-box-test-101-200-keyp")
+  TRAIN: ("unlabeled_train_data_nano")
+  TEST: ("test_data_nano")
 DATALOADER:
   SIZE_DIVISIBILITY: 32
 SOLVER:
   BASE_LR: 0.001
   WEIGHT_DECAY: 0.0001
   STEPS: (150000, 200000, 300000)
-  MAX_ITER: 400000
+  MAX_ITER: 300200
   IMS_PER_BATCH: 16
   CHECKPOINT_PERIOD: 15000
 TEST:
