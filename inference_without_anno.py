@@ -4,6 +4,7 @@ import cv2
 import os
 import torch
 import numpy as np
+from tqdm import tqdm
 
 from maskrcnn_benchmark.config import cfg
 from demo.predictor import COCODemo
@@ -318,7 +319,9 @@ def main():
     out_dir = args.out_dir
 
     himg_count = 1
+    pbar = tqdm(total=len(imgs))
     for img in imgs:
+        pbar.update(1)
         start_time = time.time()
 
         # img_id = img[0]
@@ -330,22 +333,33 @@ def main():
 
         # cv2.imwrite(os.path.join(out_dir, 'test_keypoint.jpg'), composite)
 
-        print("Time: {:.2f} s / img".format(time.time() - start_time))
+        # print("Time: {:.2f} s / img".format(time.time() - start_time))
 
         # composite = cv2.resize(composite, None, fx=0.5, fy=0.5)
 
-        human_labels = predictions.get_field("labels").numpy().tolist()
-        human_boxes = predictions.bbox.numpy().tolist()
+        # human_labels = predictions.get_field("labels").numpy().tolist()
+        product_boxes = predictions.bbox.numpy().tolist()
+
+        if len(product_boxes) == 0:
+            continue
+
+        # if len(product_boxes) >= 2:
+        #     raise ValueError
+
+        product_scores = predictions.extra_fields["scores"].numpy()
+        product_labels = predictions.extra_fields["labels"].numpy()
+
+
 
         # get the keypoints
-        keypoints = predictions.get_field("keypoints")
-        kps = keypoints.keypoints
-        scores = keypoints.get_field("logits")
-        kps = torch.cat((kps[:, :, 0:2], scores[:, :, None]), dim=2).numpy()
+        # keypoints = predictions.get_field("keypoints")
+        # kps = keypoints.keypoints
+        # scores = keypoints.get_field("logits")
+        # kps = torch.cat((kps[:, :, 0:2], scores[:, :, None]), dim=2).numpy()
 
-        print('labels:', human_labels)
-        print('boxes:', human_boxes)
-        print('keypoints:', kps.shape, kps)
+        # print('labels:', human_labels)
+        # print('boxes:', human_boxes)
+        # print('keypoints:', kps.shape, kps)
 
         # load annotations for each input img
         # annIds = coco.getAnnIds(imgIds=[img_id], iscrowd=None)
@@ -385,56 +399,63 @@ def main():
         # crop the hands
         # if kps.shape[0] == 1:
         # pid means person_id
-        for pid in range(kps.shape[0]):
-            kps_names = PersonKeypoints.NAMES
+        # kps = [1, 2]
+        # for pid in range(kps.shape[0]):
+        #     kps_names = PersonKeypoints.NAMES
             # h1 denotes left_hand, h2 denotes right_hand
-            h1xy = kps[pid, kps_names.index('left_wrist'), :2]
-            h2xy = kps[pid, kps_names.index('right_wrist'), :2]
+            # h1xy = kps[pid, kps_names.index('left_wrist'), :2]
+            # h2xy = kps[pid, kps_names.index('right_wrist'), :2]
 
-            print('h1xy:', h1xy)
-            print('h2xy:', h2xy)
+            # print('h1xy:', h1xy)
+            # print('h2xy:', h2xy)
 
-            dist = math.sqrt((h1xy[0]-h2xy[0])**2 + (h1xy[1]-h2xy[1])**2)
-            print('dist between 2 hands:', dist)
+            # dist = math.sqrt((h1xy[0]-h2xy[0])**2 + (h1xy[1]-h2xy[1])**2)
+            # print('dist between 2 hands:', dist)
 
             # dist_to_h1 = math.sqrt((bboxes_centers[0] - h1xy[0]) ** 2 + (bboxes_centers[1] - h1xy[1]) ** 2)
             # dist_to_h2 = math.sqrt((bboxes_centers[0] - h2xy[0]) ** 2 + (bboxes_centers[1] - h2xy[1]) ** 2)
             # print('dist for product to h1: ', dist_to_h1)
             # print('dist for product to h2: ', dist_to_h2)
 
-            hand_images = []
+            # hand_images = []
             # if the hands are separated, crop one image for each hand
-            img_size = 600
+            # img_size = 600
 
             # if dist_to_h1 > 500.0 and dist_to_h2 > 500.0:
                 # wrong person (grab no products) is detected
                 # continue
 
-            if dist > 300.0:
+            # if dist > 300.0:
                 # if dist_to_h1 < dist_to_h2:
-                h1, position1 = crop_image(img_cv2, [h1xy[0], h1xy[1]], img_size)
+                # h1, position1 = crop_image(img_cv2, [h1xy[0], h1xy[1]], img_size)
 
                 # new_bboxes = re_calculate_bboxes(bboxes, [h1xy[0], h1xy[1]], img_size, position1)
 
-                hand_images.append(h1)
+                # hand_images.append(h1)
                 # else:
-                h2, position2 = crop_image(img_cv2, [h2xy[0], h2xy[1]], img_size)
+                # h2, position2 = crop_image(img_cv2, [h2xy[0], h2xy[1]], img_size)
 
                 # new_bboxes = re_calculate_bboxes(bboxes, [h2xy[0], h2xy[1]], img_size, position2)
 
-                hand_images.append(h2)
-            else:
+                # hand_images.append(h2)
+            # else:
                 # if both hands are close,
                 # we only need to crop around the middle of them
-                hmiddle = [(h1xy[0] + h2xy[0])/2, (h1xy[1] + h2xy[1])/2]
-                h1, position = crop_image(img_cv2, hmiddle, img_size)
+                # hmiddle = [(h1xy[0] + h2xy[0])/2, (h1xy[1] + h2xy[1])/2]
+                # h1, position = crop_image(img_cv2, hmiddle, img_size)
 
                 # new_bboxes = re_calculate_bboxes(bboxes, hmiddle, img_size, position)
 
-                hand_images.append(h1)
+                # hand_images.append(h1)
 
             # save the hand images
-            for idx, hand_image in enumerate(hand_images):
+
+        image_info = {'id': image_id, 'file_name': file_name, 'width': img_cv2.shape[1],
+                      'height': img_cv2.shape[0], 'licence': 1, 'coco_url': ""}
+
+        coco_output_train["images"].append(image_info)
+
+        for idx, pred_bbox in enumerate(product_boxes):
                 # print(new_bboxes)
 
                 # visualization
@@ -443,51 +464,58 @@ def main():
                 #     cv2.putText(hand_image, str(classes[i]), (bbox[0], bbox[1] - 8), 1, 1, 2, 1)
                 # visualization
 
-                cv2.imshow("hand " + str(idx + 1), hand_image)
+                # cv2.imshow("hand " + str(idx + 1), hand_image)
                 # cv2.waitKey(0)
-                cv2.imwrite(os.path.join(out_dir, str(himg_count)+".jpg"), hand_image)
+                # cv2.imwrite(os.path.join(out_dir, str(himg_count)+".jpg"), hand_image)
 
-                image_name = str(himg_count) + ".jpg"
-                image_names.append(image_name)
+                # image_name = str(himg_count) + ".jpg"
+                # image_names.append(image_name)
 
-                current_img = cv2.imread(os.path.join(out_dir, image_name))
+                # current_img = cv2.imread(os.path.join(out_dir, image_name))
 
                 # insert my code here
+            cls = int(product_labels[idx])
+            if cls > 30:
+                continue
+            score = float(product_scores[idx])
+            if score < 0.95:
+                continue
 
-                image_info = {'id': image_id, 'file_name': image_name, 'width': current_img.shape[1],
-                              'height': current_img.shape[0], 'licence': 1, 'coco_url': ""}
+            # print('Training:', file_name)
 
-                coco_output_train["images"].append(image_info)
-                print('Training:', image_name)
+            # for i, bbox in enumerate(new_bboxes):
+            pred_bbox = [int(pos) for pos in pred_bbox]
+            x1, y1, x2, y2 = pred_bbox
+            w = x2 - x1
+            h = y2 - y1
 
-                # for i, bbox in enumerate(new_bboxes):
-                #     x1, y1, x2, y2 = bbox
-                #     w = x2 - x1
-                #     h = y2 - y1
-                #
-                #     cls = int(classes[i])
-                #
-                #     annotation = {"image_id": image_id, "iscrowd": 0, "area": int(w * h),
-                #                   "bbox": bbox, "segmentation": [],
-                #                   "id": product_id, "category_id": cls}
-                #
-                #     annotations_train.append(annotation)
-                #     product_id += 1
 
-                # insert my code end here
 
-                himg_count += 1
-                image_id += 1
+            annotation = {"image_id": image_id, "iscrowd": 0, "area": int(w * h),
+                          "bbox": pred_bbox, "segmentation": [],
+                          "id": product_id, "category_id": cls, "pred_score": score}
 
-        cv2.imshow("Detections", composite)
-        if cv2.waitKey(1) == 27:
-            break  # esc to quit
-    cv2.destroyAllWindows()
+            annotations_train.append(annotation)
+
+            product_id += 1
+
+        image_id += 1
+
+            # insert my code end here
+
+            # himg_count += 1
+            # image_id += 1
+
+        # cv2.imshow("Detections", composite)
+        # if cv2.waitKey(1) == 27:
+        #     break  # esc to quit
+    # cv2.destroyAllWindows()
 
     # save coco annotations
+    pbar.close()
     coco_output_train["annotations"] = annotations_train
 
-    with open('{}/annotations_test_crop_{}_batch3.json'.format(ROOT_DIR, img_size), 'w') as output_json_file:
+    with open('{}/annotations_domain_adaptaion_v2.json'.format(ROOT_DIR), 'w') as output_json_file:
         json.dump(coco_output_train, output_json_file)
 
 

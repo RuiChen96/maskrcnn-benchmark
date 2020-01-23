@@ -29,7 +29,6 @@
 #                                            --out-dir "/home/ruichen/Documents/Documents_from_ubuntu_1604/hand_crop_test_data/test_cam_31_batch2/test_cam_31_crop_800_batch2" \
 #                                            --annotations-file "/home/ruichen/Documents/Documents_from_ubuntu_1604/hand_crop_test_data/test_cam_31_batch2/cam31/annotations_train.json"
 
-python demo_crop_hands_area_images_dir.py   --config-file "configs/caffe2/e2e_keypoint_rcnn_R_50_FPN_1x_caffe2.yaml" \
-                                            --img-dir "/home/ruichen/Documents/Documents_from_ubuntu_1604/hand_crop_test_data_batch3/cam100" \
-                                            --out-dir "/home/ruichen/Documents/Documents_from_ubuntu_1604/hand_crop_test_data_batch3/test_cam_100_crop_800_batch3" \
-                                            --annotations-file "/home/ruichen/Documents/Documents_from_ubuntu_1604/hand_crop_test_data/test_cam_31_batch2/cam31/annotations_train.json"
+python no_anno_demo_crop_hands_area_images_dir.py   --config-file "configs/caffe2/e2e_keypoint_rcnn_R_50_FPN_1x_caffe2.yaml" \
+                                                    --img-dir "/home/ruichen/Documents/Documents_from_ubuntu_1604/Uncropped_data/originals" \
+                                                    --out-dir "/home/ruichen/Documents/Documents_from_ubuntu_1604/Uncropped_data/cropped"
