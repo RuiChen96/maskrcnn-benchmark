@@ -12,9 +12,6 @@ import datetime
 
 
 ROOT_DIR = '/home/ruichen/Documents/Documents_from_ubuntu_1604/ceiling_camera/'
-# IMAGE_DIR = os.path.join(ROOT_DIR, "all_cams")
-# VGG_ANNOTATIONS_DIR = os.path.join(ROOT_DIR, "vgg_annotations")
-# SPLIT_TRAIN_TEST = False
 
 INFO = {
     "description": "Domain Adaptation Iteration 1",
@@ -330,6 +327,13 @@ def main():
 
     with open('{}/annotations_domain_adaptaion_iteration_1.json'.format(ROOT_DIR), 'w') as output_json_file:
         json.dump(coco_output_train, output_json_file)
+
+# --config-file
+# "models/all_data_skus200_v5/e2e_faster_rcnn_X_101_32x8d_FPN_1x_200skus.yaml"
+# --img-dir
+# "/home/ruichen/Documents/Documents_from_ubuntu_1604/Uncropped_data/cropped"
+# --out-dir
+# "/home/ruichen/Documents/Documents_from_ubuntu_1604/Uncropped_data/anno_prediction"
 
 
 if __name__ == "__main__":
