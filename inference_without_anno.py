@@ -14,7 +14,7 @@ import datetime
 ROOT_DIR = '/home/ruichen/Documents/Documents_from_ubuntu_1604/ceiling_camera/'
 
 INFO = {
-    "description": "Domain Adaptation Iteration 1",
+    "description": "Domain Adaptation Iteration",
     "url": "",
     "version": "0.1.0",
     "year": 2020,

@@ -178,8 +178,16 @@ class DatasetCatalog(object):
             "ann_file": "real_data_skus_1-30/annotations_1_30_200classes.json"
         },
         "test_data_nano": {
-            'img_dir': "test_data_nano/100-flipped",
+            "img_dir": "test_data_nano/100-flipped",
             "ann_file": "test_data_nano/annotations_100-flipped_42_crop_550.json"
+        },
+        "synthetic1000_train_multi": {
+            "img_dir": "synthetic1000_train_multi/view",
+            "ann_file": "synthetic1000_train_multi/COCO.json"
+        },
+        "synthetic1000_test_multi": {
+            "img_dir": "synthetic1000_test_multi/view",
+            "ann_file": "synthetic1000_test_multi/COCO.json"
         }
     }
 
@@ -263,6 +271,28 @@ class DatasetCatalog(object):
                 args=args
             )
         elif "real_skus_1_30_train" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "synthetic1000_train_multi" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "synthetic1000_test_multi" == name:
             data_dir = DatasetCatalog.DATA_DIR
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(
