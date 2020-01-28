@@ -307,6 +307,8 @@ def main():
             if score < 0.95:
                 continue
 
+            print('Good predictions: {}'.format(product_id))
+
             pred_bbox = [int(pos) for pos in pred_bbox]
             x1, y1, x2, y2 = pred_bbox
             w = x2 - x1
