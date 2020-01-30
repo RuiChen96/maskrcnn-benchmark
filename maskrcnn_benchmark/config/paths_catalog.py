@@ -188,6 +188,14 @@ class DatasetCatalog(object):
         "synthetic1000_test_multi": {
             "img_dir": "synthetic1000_test_multi/view",
             "ann_file": "synthetic1000_test_multi/COCO.json"
+        },
+        "test_real_sku_1_30": {
+            "img_dir": "test_real_sku_1_30/v2_Dec12/images_30_100",
+            "ann_file": "test_real_sku_1_30/v2_Dec12/ann_test_1_30_cams30-100_200classes.json"
+        },
+        "real_skus_1_30_train_syn2real": {
+            "img_dir": "real_data_skus_1-30/images",
+            "ann_file": "real_data_skus_1-30/annotations_syn2real_iter1.json"
         }
     }
 
@@ -293,6 +301,28 @@ class DatasetCatalog(object):
                 args=args
             )
         elif "synthetic1000_test_multi" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "test_real_sku_1_30" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "real_skus_1_30_train_syn2real" == name:
             data_dir = DatasetCatalog.DATA_DIR
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(
