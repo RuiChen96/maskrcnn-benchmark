@@ -269,7 +269,7 @@ def main():
 
     # load images from directory
     img_dir = args.img_dir
-    out_dir = "/data/rui/syn2real/generated_anno"
+    out_dir = "/home/rui/photobox2real/generated_anno"
 
     imgs = os.listdir(img_dir)
 
@@ -326,7 +326,7 @@ def main():
     pbar.close()
     coco_output_train["annotations"] = annotations_train
 
-    with open('{}/annotations_syn2real_iter2.json'.format(out_dir), 'w') as output_json_file:
+    with open('{}/annotations_photobox2real_iter1.json'.format(out_dir), 'w') as output_json_file:
         json.dump(coco_output_train, output_json_file)
 
 # --config-file
