@@ -36,7 +36,7 @@ INPUT:
   TO_BGR255: True    
 DATASETS:
   TRAIN: ("real_skus_1_30_train_photobox2real", )
-  TEST: ("test_real_sku_1_30", )
+  TEST: ("test_photobox", )
 DATALOADER:
   SIZE_DIVISIBILITY: 32
 SOLVER:
