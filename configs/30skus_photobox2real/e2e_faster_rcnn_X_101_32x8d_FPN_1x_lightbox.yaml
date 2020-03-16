@@ -35,18 +35,18 @@ INPUT:
   PIXEL_STD: [1., 1., 1.]
   TO_BGR255: True    
 DATASETS:
-  TRAIN: ("sku_box_online",)
-  TEST: ("sku-box-full-test-pilot1-photobox",)
+  TRAIN: ("real_skus_1_30_train_photobox2real", )
+  TEST: ("test_real_sku_1_30", )
 DATALOADER:
   SIZE_DIVISIBILITY: 32
 SOLVER:
   BASE_LR: 0.001
   WEIGHT_DECAY: 0.0001
   STEPS: (150000, 200000, 300000)
-  MAX_ITER: 400000
+  MAX_ITER: 55000
   IMS_PER_BATCH: 16
-  CHECKPOINT_PERIOD: 10000
+  CHECKPOINT_PERIOD: 2500
 TEST:
-  IMS_PER_BATCH: 1  
+  IMS_PER_BATCH: 4
 OUTPUT_DIR: "/home/rui/photobox2real/model_before_adapt"
 
