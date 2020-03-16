@@ -204,6 +204,10 @@ class DatasetCatalog(object):
         "test_photobox": {
             "img_dir": "pilot1_photobox/test_pilot1_photobox/images",
             "ann_file": "pilot1_photobox/test_pilot1_photobox/annotations.json"
+        },
+        "real_skus_1_30_train_18skus_photobox2real": {
+            "img_dir": "train_real_pilot1_photobox/images",
+            "ann_file": "train_real_pilot1_photobox/annotations_photobox2real_new_18skus_iter1.json"
         }
     }
 
@@ -342,6 +346,17 @@ class DatasetCatalog(object):
                 args=args
             )
         elif "real_skus_1_30_train_photobox2real" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "real_skus_1_30_train_18skus_photobox2real" == name:
             data_dir = DatasetCatalog.DATA_DIR
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(
