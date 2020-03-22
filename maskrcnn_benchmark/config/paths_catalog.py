@@ -208,6 +208,12 @@ class DatasetCatalog(object):
         "real_skus_1_30_train_18skus_photobox2real": {
             "img_dir": "train_real_pilot1_photobox/images",
             "ann_file": "train_real_pilot1_photobox/annotations_photobox2real_new_18skus_iter1.json"
+        },
+        "sku_box_online": {
+            "product_dir": "photobox_train/pilot1_images",
+            "bg_dir": "photobox_train/backgrounds_lab_nano_400",
+            "hand_dir": "photobox_train/hand_images",
+            "catfile": "photobox_train/categories200.txt"
         }
     }
 
@@ -376,6 +382,19 @@ class DatasetCatalog(object):
             )
             return dict(
                 factory="VisualPR",
+                args=args
+            )
+        elif "sku_box_online" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                product_dir=os.path.join(data_dir, attrs["product_dir"]),
+                bg_dir=os.path.join(data_dir, attrs["bg_dir"]),
+                hand_dir=os.path.join(data_dir, attrs["hand_dir"]),
+                catfile=os.path.join(data_dir, attrs["catfile"]),
+            )
+            return dict(
+                factory="SKUsBoxOnlineDataset",
                 args=args
             )
         raise RuntimeError("Dataset not available: {}".format(name))
