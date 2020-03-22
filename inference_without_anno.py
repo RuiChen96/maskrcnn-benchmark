@@ -304,7 +304,7 @@ def main():
             if cls > 30:
                 continue
             score = float(product_scores[idx])
-            if score < 0.95:
+            if score < 0.98:
                 continue
 
             print('Good predictions: {}'.format(product_id))
@@ -326,7 +326,7 @@ def main():
     pbar.close()
     coco_output_train["annotations"] = annotations_train
 
-    with open('{}/annotations_photobox2real_new_18skus_iter1.json'.format(out_dir), 'w') as output_json_file:
+    with open('{}/annotations_photobox2real_new_18skus_iter1_0.98.json'.format(out_dir), 'w') as output_json_file:
         json.dump(coco_output_train, output_json_file)
 
 # --config-file
