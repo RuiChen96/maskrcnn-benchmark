@@ -388,10 +388,10 @@ class DatasetCatalog(object):
             data_dir = DatasetCatalog.DATA_DIR
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(
-                product_dir=os.path.join(data_dir, attrs["product_dir"]),
-                bg_dir=os.path.join(data_dir, attrs["bg_dir"]),
-                hand_dir=os.path.join(data_dir, attrs["hand_dir"]),
-                catfile=os.path.join(data_dir, attrs["catfile"]),
+                skus_dir=os.path.join(data_dir, attrs["product_dir"]),
+                bgs_dir=os.path.join(data_dir, attrs["bg_dir"]),
+                hands_dir=os.path.join(data_dir, attrs["hand_dir"]),
+                # catfile=os.path.join(data_dir, attrs["catfile"]),
             )
             return dict(
                 factory="SKUsBoxOnlineDataset",
