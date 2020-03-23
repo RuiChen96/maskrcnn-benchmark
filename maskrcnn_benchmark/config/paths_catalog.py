@@ -214,6 +214,10 @@ class DatasetCatalog(object):
             "bg_dir": "photobox_train/backgrounds_lab_nano_400",
             "hand_dir": "photobox_train/hand_images",
             "catfile": "photobox_train/categories200.txt"
+        },
+        "test_photobox_hand_zoom": {
+            "img_dir": "Testing_data_hand_zoom/images",
+            "ann_file": "Testing_data_hand_zoom/ann_pilot1-hands-area.json"
         }
     }
 
@@ -395,6 +399,17 @@ class DatasetCatalog(object):
             )
             return dict(
                 factory="SKUsBoxOnlineDataset",
+                args=args
+            )
+        elif "test_photobox_hand_zoom" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
                 args=args
             )
         raise RuntimeError("Dataset not available: {}".format(name))
