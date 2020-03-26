@@ -207,7 +207,7 @@ class DatasetCatalog(object):
         },
         "real_skus_1_30_train_18skus_photobox2real": {
             "img_dir": "train_real_pilot1_photobox/images",
-            "ann_file": "train_real_pilot1_photobox/annotations_photobox2real_new_18skus_iter1.json"
+            "ann_file": "train_real_pilot1_photobox/annotations_photobox2real_new_18skus_iter1_0.98.json"
         },
         "sku_box_online": {
             "product_dir": "photobox_train/pilot1_images",
