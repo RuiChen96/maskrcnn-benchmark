@@ -218,6 +218,14 @@ class DatasetCatalog(object):
         "test_photobox_hand_zoom": {
             "img_dir": "Testing_data_hand_zoom/images",
             "ann_file": "Testing_data_hand_zoom/ann_pilot1-hands-area.json"
+        },
+        "real_skus_1_30_train_2cls": {
+            "img_dir": "real_data_skus_1-30/images",
+            "ann_file": "real_data_skus_1-30/annotations_1_30_200classes.json"
+        },
+        "real_skus_31_100_train_2cls": {
+            "img_dir": "real_data_skus_31-100/images",
+            "ann_file": "real_data_skus_31-100/annotations_combined_31-100_200-classes.json"
         }
     }
 
@@ -410,6 +418,28 @@ class DatasetCatalog(object):
             )
             return dict(
                 factory="VisualPR",
+                args=args
+            )
+        elif "real_skus_1_30_train_2cls" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR_2cls",
+                args=args
+            )
+        elif "real_skus_31_100_train_2cls" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR_2cls",
                 args=args
             )
         raise RuntimeError("Dataset not available: {}".format(name))
