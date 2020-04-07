@@ -226,6 +226,10 @@ class DatasetCatalog(object):
         "real_skus_31_100_train_2cls": {
             "img_dir": "real_data_skus_31-100/images",
             "ann_file": "real_data_skus_31-100/annotations_combined_31-100_200-classes.json"
+        },
+        "test_real_data_skus_31-100": {
+            "img_dir": "test_real_data_skus_31-100/images_100",
+            "ann_file": "test_real_data_skus_31-100/ann_test_31_100_cam_100.json"
         }
     }
 
@@ -432,6 +436,17 @@ class DatasetCatalog(object):
                 args=args
             )
         elif "real_skus_31_100_train_2cls" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR_2cls",
+                args=args
+            )
+        elif "test_real_data_skus_31-100" == name:
             data_dir = DatasetCatalog.DATA_DIR
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(
