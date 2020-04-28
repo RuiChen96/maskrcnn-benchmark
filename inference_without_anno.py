@@ -301,8 +301,6 @@ def main():
 
         for idx, pred_bbox in enumerate(product_boxes):
             cls = int(product_labels[idx])
-            if cls > 30:
-                continue
             score = float(product_scores[idx])
             if score < 0.98:
                 continue
