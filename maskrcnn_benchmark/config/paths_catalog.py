@@ -238,6 +238,10 @@ class DatasetCatalog(object):
         "train_photobox2real_new_30skus_500imgs": {
             "img_dir": "train_new30skus_500imgs/images",
             "ann_file": "train_new30skus_500imgs/annotations_photobox2real_new_30skus_iter1_0.98.json"
+        },
+        "test_real_data_skus_31-100_2_cls": {
+            "img_dir": "test_real_data_skus_31-100/images_100",
+            "ann_file": "test_real_data_skus_31-100/ann_test_31_100_cam_100_2_cls.json"
         }
     }
 
@@ -462,7 +466,18 @@ class DatasetCatalog(object):
                 ann_file=os.path.join(data_dir, attrs["ann_file"]),
             )
             return dict(
-                factory="VisualPR_2cls",
+                factory="VisualPR",
+                args=args
+            )
+        elif "test_real_data_skus_31-100_2_cls" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
                 args=args
             )
         elif "test_photobox2real_new_30skus" == name:
