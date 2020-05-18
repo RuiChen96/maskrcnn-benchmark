@@ -254,6 +254,38 @@ class DatasetCatalog(object):
         "test_real_data_pico_dev_2_cls_frame_1": {
             "img_dir": "test_real_data_pico_dev/frames1",
             "ann_file": "test_real_data_pico_dev/annotations_picodev_frames1_crop_2_cls.json"
+        },
+        "test_real_data_pico_dev_frame_1": {
+            "img_dir": "test_real_data_pico_dev/frames1",
+            "ann_file": "test_real_data_pico_dev/annotations_picodev_frames1_crop.json"
+        },
+        "test_real_data_pico_dev_2_cls_frame_2": {
+            "img_dir": "test_real_data_pico_dev/frames2",
+            "ann_file": "test_real_data_pico_dev/annotations_picodev_frames2_crop_2_cls.json"
+        },
+        "test_real_data_pico_dev_frame_2": {
+            "img_dir": "test_real_data_pico_dev/frames2",
+            "ann_file": "test_real_data_pico_dev/annotations_picodev_frames2_crop.json"
+        },
+        "test_real_data_pico_dev_2_cls_frame_3": {
+            "img_dir": "test_real_data_pico_dev/frames3",
+            "ann_file": "test_real_data_pico_dev/annotations_picodev_frames3_crop_2_cls.json"
+        },
+        "test_real_data_pico_dev_frame_3": {
+            "img_dir": "test_real_data_pico_dev/frames3",
+            "ann_file": "test_real_data_pico_dev/annotations_picodev_frames3_crop.json"
+        },
+        "test_real_data_pico_dev_2_cls_frame_4": {
+            "img_dir": "test_real_data_pico_dev/frames4",
+            "ann_file": "test_real_data_pico_dev/annotations_picodev_frames4_crop_2_cls.json"
+        },
+        "test_real_data_pico_dev_frame_4": {
+            "img_dir": "test_real_data_pico_dev/frames4",
+            "ann_file": "test_real_data_pico_dev/annotations_picodev_frames4_crop.json"
+        },
+        "train_real_data_pico_dev_images_not_in_testset_crop": {
+            "img_dir": "test_real_data_pico_dev/images_not_in_testset_crop",
+            "ann_file": "test_real_data_pico_dev/annotations_photobox2picodev_new_30skus_iter1_0.98.json"
         }
     }
 
@@ -537,6 +569,94 @@ class DatasetCatalog(object):
                 args=args
             )
         elif "test_real_data_pico_dev_2_cls_frame_1" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "test_real_data_pico_dev_frame_1" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "test_real_data_pico_dev_2_cls_frame_2" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "test_real_data_pico_dev_frame_2" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "test_real_data_pico_dev_2_cls_frame_3" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "test_real_data_pico_dev_frame_3" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "test_real_data_pico_dev_2_cls_frame_4" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "test_real_data_pico_dev_frame_4" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "train_real_data_pico_dev_images_not_in_testset_crop" == name:
             data_dir = DatasetCatalog.DATA_DIR
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(

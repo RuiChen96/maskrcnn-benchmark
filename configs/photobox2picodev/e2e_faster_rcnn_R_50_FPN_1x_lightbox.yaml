@@ -30,8 +30,8 @@ INPUT:
   PIXEL_STD: [1., 1., 1.]
   TO_BGR255: True    
 DATASETS:
-  TRAIN: ("sku_box_online_pilot3",)
-  TEST: ("sku-box-full_picodev_test_frame1","sku-box-full_picodev_test_frame2","sku-box-full_picodev_test_frame3","sku-box-full_picodev_test_frame4")
+  TRAIN: ("train_real_data_pico_dev_images_not_in_testset_crop", )
+  TEST: ("test_real_data_pico_dev_frame_1", "test_real_data_pico_dev_frame_2", "test_real_data_pico_dev_frame_3", "test_real_data_pico_dev_frame_4", )
 DATALOADER:
   SIZE_DIVISIBILITY: 32
 SOLVER:
