@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-config="/data/rui/syn2real/model_and_config/SKUs_1_30/e2e_faster_rcnn_X_101_32x8d_FPN_1x_synth_blurry.yaml"
-img_dir="/home/rui/real_data_skus_1-30/images"
+config="configs/photobox2picodev/e2e_faster_rcnn_R_50_FPN_1x_lightbox.yaml"
+img_dir="/home/rui/test_real_data_pico_dev/images_not_in_testset_crop"
 out_dir="/data/rui/syn2real/generated_anno"
 
 /home/rui/anaconda2/envs/maskrcnn/bin/python inference_without_anno.py  --config-file ${config} \
