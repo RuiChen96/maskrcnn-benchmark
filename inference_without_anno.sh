@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-config="configs/photobox2picodev/e2e_faster_rcnn_R_50_FPN_1x_lightbox.yaml"
+config="configs/photobox2picodev/e2e_faster_rcnn_R_50_pico_dev_r1500_plus_pb.yaml"
 img_dir="/home/rui/test_real_data_pico_dev/images_not_in_testset_crop"
 out_dir="/data/rui/syn2real/generated_anno"
 

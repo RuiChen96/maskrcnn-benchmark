@@ -324,7 +324,7 @@ def main():
     pbar.close()
     coco_output_train["annotations"] = annotations_train
 
-    with open('{}/annotations_photobox2picodev_new_30skus_iter1_0.98.json'.format(out_dir), 'w') as output_json_file:
+    with open('{}/annotations_photobox2picodev_r1500_30skus_iter1_0.98.json'.format(out_dir), 'w') as output_json_file:
         json.dump(coco_output_train, output_json_file)
 
 # --config-file
