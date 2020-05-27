@@ -285,7 +285,7 @@ class DatasetCatalog(object):
         },
         "train_real_data_pico_dev_images_not_in_testset_crop": {
             "img_dir": "test_real_data_pico_dev/images_not_in_testset_crop",
-            "ann_file": "test_real_data_pico_dev/annotations_photobox2picodev_new_30skus_iter1_0.98.json"
+            "ann_file": "test_real_data_pico_dev/annotations_photobox2picodev_r1500_30skus_iter1_0.98.json"
         }
     }
 
