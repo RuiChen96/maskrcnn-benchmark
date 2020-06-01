@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
-img_dir='/home/rui/real_data_skus_1-30/images'
-bbox_dir='/data/rui/syn2real/generated_anno'
-save_dir='/data/rui/syn2real/iter1_vis'
+#img_dir='/Users/ruichen/Data/test_real_data_pico_dev/frames4'
+#bbox_dir='/Users/ruichen/Data/test_real_data_pico_dev/frames4_adaptation_results'
+#save_dir='/Users/ruichen/Data/test_real_data_pico_dev/frames4_adaptation_results/failure_cases_real'
+#num_of_skus=1
+
+img_dir='/Users/ruichen/Data/test_new30skus_data/images'
+bbox_dir='/Users/ruichen/Data/test_new_30skus_photobox_results/fix_all_2eps'
+save_dir='/Users/ruichen/Data/test_new_30skus_photobox_results/fix_all_2eps/failure_cases_real'
 num_of_skus=1
 
-/home/rui/anaconda2/envs/maskrcnn/bin/python failure_cases_analysis.py  --img-dir ${img_dir} \
-                                                                        --bbox-dir ${bbox_dir} \
-                                                                        --save-dir ${save_dir} \
-                                                                        --num ${num_of_skus}
+python failure_cases_analysis.py  --img-dir ${img_dir} \
+                                  --bbox-dir ${bbox_dir} \
+                                  --save-dir ${save_dir} \
+                                  --num ${num_of_skus}
