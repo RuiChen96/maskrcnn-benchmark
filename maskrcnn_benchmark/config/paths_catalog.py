@@ -286,6 +286,10 @@ class DatasetCatalog(object):
         "train_real_data_pico_dev_images_not_in_testset_crop": {
             "img_dir": "test_real_data_pico_dev/images_not_in_testset_crop",
             "ann_file": "test_real_data_pico_dev/annotations_photobox2picodev_r1500_30skus_iter1_0.98.json"
+        },
+        "shanghai_store_train_size_450": {
+            "img_dir": "/extra/rui/shanghai_store_train/size_450",
+            "ann_file": "/extra/rui/shanghai_store_train/annotations_amcrest_skus1-30-hcrop_crop_450_2_cls.json"
         }
     }
 
@@ -657,6 +661,17 @@ class DatasetCatalog(object):
                 args=args
             )
         elif "train_real_data_pico_dev_images_not_in_testset_crop" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "shanghai_store_train_size_450" == name:
             data_dir = DatasetCatalog.DATA_DIR
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(
