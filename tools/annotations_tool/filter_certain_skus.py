@@ -9,7 +9,13 @@ sku_list = [2, 8, 11, 15, 16, 17, 18, 19, 20, 23, 26, 27,
 
 # read in annotations
 anno_dir = '/Users/ruichen/Data/real_data_anno_dir'
-anno_name = 'annotations_combined_1-30_200classes_v2.json'
+# SKUs in 1-30, 43303 + 52673 == 95976
+# anno_name = 'annotations_combined_1-30_200classes_v2.json'
+# SKUs in 31-100, 22801 + 188847 == 211648
+anno_name = 'annotations_31_100_200classes_v6.json'
+# SKUs in 101-200
+# anno_name = 'annotations_skus_101_200_train_v4.json'
+
 file_path = os.path.join(anno_dir, anno_name)
 with open(file=file_path, mode='r') as fp:
     anno = json.load(fp)
