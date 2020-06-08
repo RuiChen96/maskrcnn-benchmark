@@ -30,7 +30,7 @@ INPUT:
   PIXEL_STD: [1., 1., 1.]
   TO_BGR255: True
 DATASETS:
-  TRAIN: ("real_skus_1_30_train_2cls", "real_skus_31_100_train_2cls", )
+  TRAIN: ("real_skus_1_30_train_filtered_2cls", "real_skus_31_100_train_filtered_2cls", )
   TEST: ("test_real_data_skus_101-200_2_cls", )
 DATALOADER:
   SIZE_DIVISIBILITY: 32
@@ -43,4 +43,4 @@ SOLVER:
   CHECKPOINT_PERIOD: 12500
 TEST:
   IMS_PER_BATCH: 16
-OUTPUT_DIR: "/home/rui/general_detector/trained_on_skus_1_100"
+OUTPUT_DIR: "/home/rui/general_detector/trained_on_filtered_skus_1_100"

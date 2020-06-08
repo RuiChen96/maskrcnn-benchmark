@@ -223,9 +223,21 @@ class DatasetCatalog(object):
             "img_dir": "real_data_skus_1-30/images",
             "ann_file": "real_data_skus_1-30/annotations_1_30_200classes.json"
         },
+        "real_skus_1_30_train_filtered_2cls": {
+            "img_dir": "real_data_skus_1-30/images",
+            "ann_file": "real_data_skus_1-30/annotations_combined_1-30_200classes_v2_filtered_2_cls.json"
+        },
         "real_skus_31_100_train_2cls": {
             "img_dir": "real_data_skus_31-100/images",
             "ann_file": "real_data_skus_31-100/annotations_combined_31-100_200-classes.json"
+        },
+        "real_skus_31_100_train_filtered_2cls": {
+            "img_dir": "real_data_skus_31-100/images",
+            "ann_file": "real_data_skus_31-100/annotations_31_100_200classes_v6_filtered_2_cls.json"
+        },
+        "real_skus_101_200_train_filtered_2cls": {
+            "img_dir": "real_data_skus_101_200/images",
+            "ann_file": "real_data_skus_101_200/annotations_skus_101_200_train_v4_filtered_2_cls.json"
         },
         "test_real_data_skus_31-100": {
             "img_dir": "test_real_data_skus_31-100/images_100",
@@ -672,6 +684,39 @@ class DatasetCatalog(object):
                 args=args
             )
         elif "shanghai_store_train_size_450" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "real_skus_1_30_train_filtered_2cls" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "real_skus_31_100_train_filtered_2cls" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "real_skus_101_200_train_filtered_2cls" == name:
             data_dir = DatasetCatalog.DATA_DIR
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(
