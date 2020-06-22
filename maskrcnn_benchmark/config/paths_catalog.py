@@ -210,7 +210,7 @@ class DatasetCatalog(object):
             "ann_file": "train_real_pilot1_photobox/annotations_photobox2real_new_18skus_iter1_0.98.json"
         },
         "sku_box_online": {
-            "product_dir": "photobox_train/pilot1_images",
+            "product_dir": "photobox_train/pilot3_30skusV2",
             "bg_dir": "photobox_train/backgrounds_lab_nano_400",
             "hand_dir": "photobox_train/hand_images",
             "catfile": "photobox_train/categories200.txt"

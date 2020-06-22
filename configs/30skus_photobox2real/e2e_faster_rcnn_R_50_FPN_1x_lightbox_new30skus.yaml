@@ -1,6 +1,6 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  WEIGHT: "/extra/rui/Photobox_new30skus/model_0030000.pth"
+  WEIGHT: "/extra/rui/real_plus_pb_model_save/pb_only/model_0030000.pth"
   BACKBONE:
     CONV_BODY: "R-50-FPN"
   RESNETS:
@@ -30,7 +30,7 @@ INPUT:
   PIXEL_STD: [1., 1., 1.]
   TO_BGR255: True    
 DATASETS:
-  TRAIN: ("train_photobox2real_new_30skus_500imgs",)
+  TRAIN: ("train_photobox2real_new_30skus_500imgs", "sku_box_online")
   TEST: ("test_photobox2real_new_30skus",)
 DATALOADER:
   SIZE_DIVISIBILITY: 32
@@ -43,4 +43,4 @@ SOLVER:
   CHECKPOINT_PERIOD: 125
 TEST:
   IMS_PER_BATCH: 8
-OUTPUT_DIR: "/extra/rui/Photobox_new30skus"
+OUTPUT_DIR: "/extra/rui/real_plus_pb_model_save/pb_only"
