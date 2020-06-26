@@ -1,6 +1,6 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  WEIGHT: "/home2/aifi_code/spg/product-recognition/models/ceiling/Shanghai_cropped_30skus_real_plus_photobox2/model_0200000.pth"
+  WEIGHT: "/extra/rui/shanghai_model/model_0200000.pth"
   BACKBONE:
     CONV_BODY: "R-50-FPN"
   RESNETS:
@@ -32,8 +32,8 @@ INPUT:
   PIXEL_STD: [1., 1., 1.]
   TO_BGR255: True    
 DATASETS:
-  TRAIN: ("sku-box_hand-crop-shanghai-30skus","sku_box_online_shanghai-30-skus")
-  TEST: ("sku-box_pilot3-real300",)
+  TRAIN: ("sku_box_online_shanghai", )
+  TEST: ("shanghai_store_test_size_512_centered", )
 DATALOADER:
   SIZE_DIVISIBILITY: 32
 SOLVER:
@@ -44,5 +44,5 @@ SOLVER:
   IMS_PER_BATCH: 16
   CHECKPOINT_PERIOD: 10000
 TEST:
-  IMS_PER_BATCH: 1  
-OUTPUT_DIR: "models/Shanghai_cropped_30skus_real_plus_photobox2"
+  IMS_PER_BATCH: 16
+OUTPUT_DIR: "/extra/rui/shanghai_model"

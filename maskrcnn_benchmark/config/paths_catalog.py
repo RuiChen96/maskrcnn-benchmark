@@ -215,6 +215,12 @@ class DatasetCatalog(object):
             "hand_dir": "photobox_train/hand_images",
             "catfile": "photobox_train/categories200.txt"
         },
+        "sku_box_online_shanghai": {
+            "product_dir": "shanghai_store_photobox/shanghai_photobox_v1",
+            "bg_dir": "shanghai_store_photobox/backgrounds_lab_nano_400",
+            "hand_dir": "shanghai_store_photobox/hand_images",
+            "catfile": "shanghai_store_photobox/categories_shanghai_30skus.txt"
+        },
         "test_photobox_hand_zoom": {
             "img_dir": "Testing_data_hand_zoom/images",
             "ann_file": "Testing_data_hand_zoom/ann_pilot1-hands-area.json"
@@ -302,7 +308,15 @@ class DatasetCatalog(object):
         "shanghai_store_train_size_450": {
             "img_dir": "/extra/rui/shanghai_store_train/size_450",
             "ann_file": "/extra/rui/shanghai_store_train/annotations_amcrest_skus1-30-hcrop_crop_450_2_cls.json"
-        }
+        },
+        "shanghai_store_test_size_512_centered": {
+            "img_dir": "shanghai_store_test/centered/amcrest",
+            "ann_file": "shanghai_store_test/centered/annotations_amcrest_shangahi-test-centered-hand-crop-size512_crop_512.json"
+        },
+        "shanghai_store_test_size_512_non_centered": {
+            "img_dir": "shanghai_store_test/non-centered/amcrest",
+            "ann_file": "shanghai_store_test/non-centered/annotations_amcrest_shangahi-test-non-centered-hand-crop-size512_crop_512.json"
+        },
     }
 
     @staticmethod
@@ -473,6 +487,19 @@ class DatasetCatalog(object):
                 args=args
             )
         elif "sku_box_online" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                skus_dir=os.path.join(data_dir, attrs["product_dir"]),
+                bgs_dir=os.path.join(data_dir, attrs["bg_dir"]),
+                hands_dir=os.path.join(data_dir, attrs["hand_dir"]),
+                # catfile=os.path.join(data_dir, attrs["catfile"]),
+            )
+            return dict(
+                factory="SKUsBoxOnlineDataset",
+                args=args
+            )
+        elif "sku_box_online_shanghai" == name:
             data_dir = DatasetCatalog.DATA_DIR
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(
@@ -684,6 +711,28 @@ class DatasetCatalog(object):
                 args=args
             )
         elif "shanghai_store_train_size_450" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "shanghai_store_test_size_512_centered" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "shanghai_store_test_size_512_non_centered" == name:
             data_dir = DatasetCatalog.DATA_DIR
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(
