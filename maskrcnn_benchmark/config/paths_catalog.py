@@ -309,6 +309,10 @@ class DatasetCatalog(object):
             "img_dir": "/extra/rui/shanghai_store_train/size_450",
             "ann_file": "/extra/rui/shanghai_store_train/annotations_amcrest_skus1-30-hcrop_crop_450_2_cls.json"
         },
+        "shanghai_store_train_unannotated": {
+            "img_dir": "shanghai_store/unannotated_data/cropped/all_imgs",
+            "ann_file": "shanghai_store/generated_anno/annotations_shanghai_iter1_0.98.json"
+        },
         "shanghai_store_test_size_512_centered": {
             "img_dir": "shanghai_store_test/centered/amcrest",
             "ann_file": "shanghai_store_test/centered/annotations_amcrest_shangahi-test-centered-hand-crop-size512_crop_512.json"
@@ -711,6 +715,17 @@ class DatasetCatalog(object):
                 args=args
             )
         elif "shanghai_store_train_size_450" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "shanghai_store_train_unannotated" == name:
             data_dir = DatasetCatalog.DATA_DIR
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(

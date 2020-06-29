@@ -1,6 +1,6 @@
 MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
-  WEIGHT: "/extra/rui/shanghai_model/model_0200000.pth"
+  WEIGHT: "/home/ruichen/Documents/Documents_from_ubuntu_1604/shanghai_store/model_save/model_0200000.pth"
   BACKBONE:
     CONV_BODY: "R-50-FPN"
   RESNETS:
@@ -32,7 +32,7 @@ INPUT:
   PIXEL_STD: [1., 1., 1.]
   TO_BGR255: True    
 DATASETS:
-  TRAIN: ("sku_box_online_shanghai", )
+  TRAIN: ("shanghai_store_train_unannotated", )
   TEST: ("shanghai_store_test_size_512_centered", )
 DATALOADER:
   SIZE_DIVISIBILITY: 32
@@ -40,9 +40,9 @@ SOLVER:
   BASE_LR: 0.001
   WEIGHT_DECAY: 0.0001
   STEPS: (60000, 80000)
-  MAX_ITER: 300000
-  IMS_PER_BATCH: 16
-  CHECKPOINT_PERIOD: 10000
+  MAX_ITER: 210000
+  IMS_PER_BATCH: 4
+  CHECKPOINT_PERIOD: 5000
 TEST:
-  IMS_PER_BATCH: 16
-OUTPUT_DIR: "/extra/rui/shanghai_model"
+  IMS_PER_BATCH: 4
+OUTPUT_DIR: "/home/ruichen/Documents/Documents_from_ubuntu_1604/shanghai_store/model_save"
