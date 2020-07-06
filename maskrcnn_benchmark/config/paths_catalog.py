@@ -321,6 +321,14 @@ class DatasetCatalog(object):
             "img_dir": "shanghai_store_test/non-centered/amcrest",
             "ann_file": "shanghai_store_test/non-centered/annotations_amcrest_shangahi-test-non-centered-hand-crop-size512_crop_512.json"
         },
+        "test_c4_skus": {
+            "img_dir": "C4_products/test/images",
+            "ann_file": "C4_products/test/annotations_amcrest_Nanostore-test-non-centered-hand-crop-size512_crop_512.json"
+        },
+        "train_c4_skus": {
+            "img_dir": "C4_products/train/images",
+            "ann_file": "annotations_amcrest_Nanostore-train-non-centered-hand-crop-size512_crop_512.json"
+        },
     }
 
     @staticmethod
@@ -781,6 +789,28 @@ class DatasetCatalog(object):
                 args=args
             )
         elif "real_skus_101_200_train_filtered_2cls" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "train_c4_skus" == name:
+            data_dir = DatasetCatalog.DATA_DIR
+            attrs = DatasetCatalog.DATASETS[name]
+            args = dict(
+                root=os.path.join(data_dir, attrs["img_dir"]),
+                ann_file=os.path.join(data_dir, attrs["ann_file"]),
+            )
+            return dict(
+                factory="VisualPR",
+                args=args
+            )
+        elif "test_c4_skus" == name:
             data_dir = DatasetCatalog.DATA_DIR
             attrs = DatasetCatalog.DATASETS[name]
             args = dict(
