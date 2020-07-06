@@ -327,7 +327,7 @@ class DatasetCatalog(object):
         },
         "train_c4_skus": {
             "img_dir": "C4_products/train/images",
-            "ann_file": "annotations_amcrest_Nanostore-train-non-centered-hand-crop-size512_crop_512.json"
+            "ann_file": "C4_products/train/annotations_amcrest_Nanostore-train-non-centered-hand-crop-size512_crop_512.json"
         },
     }
 
