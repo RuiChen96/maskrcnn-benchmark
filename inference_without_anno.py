@@ -324,7 +324,7 @@ def main():
     pbar.close()
     coco_output_train["annotations"] = annotations_train
 
-    with open('{}/annotations_shanghai_iter1_0.98.json'.format(out_dir), 'w') as output_json_file:
+    with open('{}/annotations_c4_iter1_0.98.json'.format(out_dir), 'w') as output_json_file:
         json.dump(coco_output_train, output_json_file)
 
 # --config-file
