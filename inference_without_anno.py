@@ -302,7 +302,7 @@ def main():
         for idx, pred_bbox in enumerate(product_boxes):
             cls = int(product_labels[idx])
             score = float(product_scores[idx])
-            if score < 0.98:
+            if score < 0.9:
                 continue
 
             print('Good predictions: {}'.format(product_id))
@@ -324,7 +324,7 @@ def main():
     pbar.close()
     coco_output_train["annotations"] = annotations_train
 
-    with open('{}/annotations_c4_iter1_0.98.json'.format(out_dir), 'w') as output_json_file:
+    with open('{}/annotations_c4_iter1_0.90.json'.format(out_dir), 'w') as output_json_file:
         json.dump(coco_output_train, output_json_file)
 
 # --config-file
